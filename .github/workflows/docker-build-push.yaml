@@ -61,4 +61,4 @@ jobs:
             BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
             VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
             REVISION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-            upstream_image=rethinkdb:${{ steps.rethinkdb.outputs.release }}
+            UPSTREAM_IMAGE=rethinkdb:${{ steps.rethinkdb.outputs.release }}
