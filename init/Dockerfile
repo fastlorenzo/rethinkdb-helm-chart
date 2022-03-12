@@ -26,7 +26,7 @@ ARG UPSTREAM_IMAGE
 ENV UPSTREAM_IMAGE=${UPSTREAM_IMAGE}
 
 FROM ${UPSTREAM_IMAGE}
-MAINTAINER Pozetron Inc <hello@pozetroninc.com>
+LABEL MAINTAINER "Pozetron Inc <hello@pozetroninc.com>"
 
 RUN apt-get update && \
     apt-get install -yq curl && \
