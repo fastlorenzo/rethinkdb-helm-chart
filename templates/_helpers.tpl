@@ -16,6 +16,13 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Store the namespace
+*/}}
+{{- define "rethinkdb.namespace" -}}
+    {{- .Release.Namespace -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "rethinkdb.chart" -}}
@@ -30,5 +37,41 @@ Create the name of the service account to use
     {{ default (include "rethinkdb.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns the available value for certain key in an existing secret (if it exists),
+otherwise it generates a random value.
+*/}}
+{{- define "getValueFromSecret" }}
+{{- $len := (default 16 .Length) | int -}}
+{{- $obj := (lookup "v1" "Secret" .Namespace .Name).data -}}
+{{- if $obj }}
+{{- index $obj .Key | b64dec -}}
+{{- else -}}
+{{- randAlphaNum $len -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Return RethinkDB admin password
+*/}}
+{{- define "rethinkdb.adminPassword" -}}
+{{- if .Values.secretKey }}
+    {{- .Values.secretKey -}}
+{{- else -}}
+    {{- include "getValueFromSecret" (dict "Namespace" (include "rethinkdb.namespace" .) "Name" (include "rethinkdb.secretName" .) "Length" 10 "Key" "rethinkdb-password")  -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the RethinkDB secret name.
+*/}}
+{{- define "rethinkdb.secretName" -}}
+{{- if .Values.existingSecret }}
+    {{- printf "%s" (tpl .Values.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s-secret" (include "rethinkdb.fullname" .) -}}
 {{- end -}}
 {{- end -}}

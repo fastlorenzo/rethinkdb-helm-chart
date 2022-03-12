@@ -68,7 +68,7 @@ spec:
             - name: RETHINKDB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "rethinkdb.fullname" . }}
+                  name: {{ template "rethinkdb.secretName" . }}
                   key: rethinkdb-password
             - name: POD_IP
               valueFrom:
@@ -90,4 +90,4 @@ spec:
           projected:
             sources:
             - secret:
-                name: {{ template "rethinkdb.fullname" . }}
+                name: {{ template "rethinkdb.secretName" . }}

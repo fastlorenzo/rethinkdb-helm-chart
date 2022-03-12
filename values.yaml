@@ -80,27 +80,33 @@ proxy:
   # More Info: https://www.rethinkdb.com/docs/security/#using-tls
   driverTLS:
     enabled: false
+    # key and cert ignored if using `existingSecret`
     # key: |-
     #   << RSA PRIVATE KEY >>
     # cert: |-
     #   << CERTIFICATE >>
 
-# RethinkDB Ports
+# -- RethinkDB Ports
 ports:
   cluster: 29015
   driver: 28015
   admin: 8080
 
-# RethinkDB Admin Password
+# -- RethinkDB Admin Password - ignored if using `existingSecret`
 rethinkdbPassword: rethinkdb
 
+# -- Use existing secret for rethinkDB password and certificates
+# Must at least contain the secret under `rethinkdb-password` key
+# If using TLS driver in proxy, set `driver-key.pem` and `driver-cert.pem`
+existingSecret: ""
+
 rbac:
-  # Specifies whether RBAC resources should be created
+  # -- Specifies whether RBAC resources should be created
   create: true
 
 serviceAccount:
-  # Specifies whether a ServiceAccount should be created
+  # -- Specifies whether a ServiceAccount should be created
   create: true
-  # The name of the ServiceAccount to use.
+  # -- The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
