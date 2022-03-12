@@ -6,7 +6,8 @@ jobs:
     name: RemoteDockerImage
     runs-on: ubuntu-latest
     steps:
-      - id: rethinkdb
+      - name: Get RethinkDB latest release version
+        id: rethinkdb
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: rethinkdb/rethinkdb-dockerfiles
@@ -15,8 +16,10 @@ jobs:
       - name: Prepare
         id: prepare
         run: |
+          version=${{ steps.rethinkdb.outputs.release }}
           echo ::set-output name=docker_image::"ghcr.io/${{ github.repository_owner }}/rethinkdb"
           echo ::set-output name=docker_repo::${{ github.repository_owner }}
+          echo ::set-output name=rethinkdb_version::${version/v/}
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
@@ -61,4 +64,4 @@ jobs:
             BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
             VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
             REVISION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
-            UPSTREAM_IMAGE=rethinkdb:${{ steps.rethinkdb.outputs.release }}
+            UPSTREAM_IMAGE=rethinkdb:${{ steps.prepare.outputs.rethinkdb_version }}
