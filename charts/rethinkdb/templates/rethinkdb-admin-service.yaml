@@ -3,15 +3,15 @@ kind: Service
 metadata:
   name: "{{ template "rethinkdb.fullname" . }}-admin"
   labels:
-    app: "{{ template "rethinkdb.name" . }}-admin"
-    chart: {{ template "rethinkdb.chart" . }}
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-admin"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ template "rethinkdb.chart" . }}
 spec:
   clusterIP: None
   ports:
     - port: {{ .Values.ports.admin }}
       targetPort: admin
   selector:
-    app: "{{ template "rethinkdb.name" . }}-proxy"
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-proxy"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}

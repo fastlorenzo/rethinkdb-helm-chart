@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ template "rethinkdb.fullname" . }}-proxy
   labels:
-    app: {{ template "rethinkdb.name" . }}-proxy
-    chart: {{ template "rethinkdb.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "rethinkdb.name" . }}-proxy
+    helm.sh/chart: {{ template "rethinkdb.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
   annotations:
   {{- if .Values.proxy.service.annotations }}
 {{ toYaml .Values.proxy.service.annotations | indent 4 }}
@@ -31,5 +31,5 @@ spec:
     - port: {{ .Values.ports.driver }}
       targetPort: driver
   selector:
-    app: {{ template "rethinkdb.name" . }}-proxy
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "rethinkdb.name" . }}-proxy
+    app.kubernetes.io/instance: {{ .Release.Name }}

@@ -7,10 +7,10 @@ apiVersion: {{ if .Capabilities.APIVersions.Has "storage.k8s.io/v1" -}}
 kind: StorageClass
 metadata:
   labels:
-    app: "{{ template "rethinkdb.name" . }}-cluster"
-    chart: {{ template "rethinkdb.chart" . }}
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ template "rethinkdb.chart" . }}
   name: {{ template "rethinkdb.fullname" . }}
 provisioner: {{ .Values.cluster.storageClass.provisioner }}
 parameters:

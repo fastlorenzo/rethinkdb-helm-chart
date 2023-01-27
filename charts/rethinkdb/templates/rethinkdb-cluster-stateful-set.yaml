@@ -3,27 +3,27 @@ kind: StatefulSet
 metadata:
   name: "{{ template "rethinkdb.fullname" . }}-cluster"
   labels:
-    app: "{{ template "rethinkdb.name" . }}-cluster"
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
     chart: {{ template "rethinkdb.chart" . }}
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
 spec:
   serviceName: "{{ template "rethinkdb.fullname" . }}-cluster"
   replicas: {{ .Values.cluster.replicas }}
   selector:
     matchLabels:
-      app: "{{ template "rethinkdb.name" . }}-cluster"
-      heritage: {{ .Release.Service | quote }}
-      release: {{ .Release.Name | quote }}
-      chart: "rethinkdb-1.1.5"
+      app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+      helm.sh/chart: {{ template "rethinkdb.chart" . }}
   template:
     metadata:
       name: "{{ template "rethinkdb.fullname" . }}-cluster"
       labels:
-        app: "{{ template "rethinkdb.name" . }}-cluster"
-        heritage: {{ .Release.Service | quote }}
-        release: {{ .Release.Name | quote }}
-        chart: "rethinkdb-1.1.5"
+        app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        helm.sh/chart: {{ template "rethinkdb.chart" . }}
       annotations:
       {{- if .Values.cluster.podAnnotations }}
 {{ toYaml .Values.cluster.podAnnotations | indent 8 }}
@@ -88,6 +88,13 @@ spec:
         volume.beta.kubernetes.io/storage-class: {{ template "rethinkdb.fullname" . }}
       {{- end }}
       {{- range $key, $value := .Values.cluster.persistentVolume.annotations }}
+        {{ $key }}: {{ $value }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+      {{- range $key, $value := .Values.cluster.persistentVolume.labels }}
         {{ $key }}: {{ $value }}
       {{- end }}
     spec:

@@ -1,15 +1,15 @@
 apiVersion: v2
 name: rethinkdb
 description: The open-source database for the realtime web
-version: 1.2.2
+version: 1.2.3
 appVersion: 2.4.1
 keywords:
-- rethinkdb
-- database
-- nosql
+  - rethinkdb
+  - database
+  - nosql
 home: https://www.rethinkdb.com
 sources:
-- https://github.com/fastlorenzo/rethinkdb-helm-chart
+  - https://github.com/fastlorenzo/rethinkdb-helm-chart
 icon: http://i.imgur.com/bZ75N6r.jpg
 maintainers:
   - name: fastlorenzo

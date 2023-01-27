@@ -32,6 +32,7 @@ cluster:
       - ReadWriteOnce
     size: 1Gi
     annotations: {}
+    labels: {}
   # RethinkDB Cache Size in MB
   rethinkCacheSize: 100
   livenessProbe:

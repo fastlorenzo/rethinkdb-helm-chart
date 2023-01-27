@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: "{{ template "rethinkdb.fullname" . }}-cluster"
   labels:
-    app: "{{ template "rethinkdb.name" . }}-cluster"
-    chart: {{ template "rethinkdb.chart" . }}
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ template "rethinkdb.chart" . }}
   annotations:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   {{- if .Values.cluster.service.annotations }}
@@ -18,5 +18,5 @@ spec:
     - port: {{ .Values.ports.cluster }}
       targetPort: cluster
   selector:
-    app: "{{ template "rethinkdb.name" . }}-cluster"
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
