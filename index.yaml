@@ -3,6 +3,25 @@ entries:
   rethinkdb:
   - apiVersion: v2
     appVersion: 2.4.1
+    created: "2023-01-28T00:16:35.381077239Z"
+    description: The open-source database for the realtime web
+    digest: 67d81fdbfaabb7537cce73eeb30a513ac4f70b8d147c2f99de9b9707d6b90015
+    home: https://www.rethinkdb.com
+    icon: http://i.imgur.com/bZ75N6r.jpg
+    keywords:
+    - rethinkdb
+    - database
+    - nosql
+    maintainers:
+    - name: fastlorenzo
+    name: rethinkdb
+    sources:
+    - https://github.com/fastlorenzo/rethinkdb-helm-chart
+    urls:
+    - https://github.com/fastlorenzo/rethinkdb-helm-chart/releases/download/rethinkdb-1.2.4/rethinkdb-1.2.4.tgz
+    version: 1.2.4
+  - apiVersion: v2
+    appVersion: 2.4.1
     created: "2023-01-27T23:56:12.871269717Z"
     description: The open-source database for the realtime web
     digest: 1b6fe48ff63347740062c7f6fa42924913b5676abe4bcc6f42bd0502ee71c726
