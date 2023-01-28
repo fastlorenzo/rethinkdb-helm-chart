@@ -88,14 +88,14 @@ spec:
         volume.beta.kubernetes.io/storage-class: {{ template "rethinkdb.fullname" . }}
       {{- end }}
       {{- range $key, $value := .Values.cluster.persistentVolume.annotations }}
-        {{ $key }}: {{ $value }}
+        {{ $key }}: {{ $value | quote }}
       {{- end }}
       labels:
         app.kubernetes.io/name: "{{ template "rethinkdb.name" . }}-cluster"
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       {{- range $key, $value := .Values.cluster.persistentVolume.labels }}
-        {{ $key }}: {{ $value }}
+        {{ $key }}: {{ $value | quote }}
       {{- end }}
     spec:
       accessModes:
